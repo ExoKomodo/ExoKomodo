@@ -1,5 +1,6 @@
 
 using ExoKomodo.Models;
+using ExoKomodo.Config;
 using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.Generic;
@@ -19,11 +20,16 @@ namespace ExoKomodo.Pages.Users.Torson
 
         protected override async Task OnInitializedAsync()
         {
+            AppState.IsSideNavHidden = true;
             _self = (await _http.GetFromJsonAsync<List<User>>("data/users.json")).Where(user => user.Id == UserId).FirstOrDefault();
             if (_self is null)
             {
                 throw new Exception($"Could not find user {UserId}");
             }
+        }
+
+        int DaysSince(DateTime startDate){
+            return (System.DateTime.Now - startDate).Days;
         }
     }
 }
